@@ -74,4 +74,13 @@ CREATE TABLE notes (
       where: 'id = ${note.id}',
     );
   }
+
+  Future<void> updateNote(Note note) async {
+    final db = await database;
+    await db.update(
+      notesTable,
+      note.toMap(),
+      where: 'id = ${note.id}',
+    );
+  }
 }
