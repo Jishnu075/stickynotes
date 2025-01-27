@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:stickynotes/add_note_screen.dart';
 import 'package:stickynotes/note_detail_screen.dart';
 import 'package:stickynotes/note_provider.dart';
+import 'package:stickynotes/notes_model.dart';
+import 'package:stickynotes/sticky_note_card.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -31,7 +33,13 @@ class HomeScreen extends StatelessWidget {
               ),
               itemCount: noteProvider.notes.length,
               itemBuilder: (context, index) {
-                return GestureDetector(
+                final Note note = noteProvider.notes[index];
+                return StickyNoteCard(
+                  title: note.title,
+                  description: note.description ?? "",
+                  dueDate: note.due,
+                  isPinned: note.isPinned,
+                  backgroundColor: getCardColor(colorHEX: note.colorHEX),
                   onTap: () {
                     Navigator.push(
                         context,
@@ -39,26 +47,16 @@ class HomeScreen extends StatelessWidget {
                             builder: (context) => NoteDetailScreen(
                                 note: noteProvider.notes[index])));
                   },
-                  child: Container(
-                      color: getCardColor(
-                          colorHEX: noteProvider.notes[index].colorHEX),
-                      child: Column(children: [
-                        Text(noteProvider.notes[index].title),
-                        Text(noteProvider.notes[index].description ?? ""),
-                        Text("${noteProvider.notes[index].due}")
-                      ])),
                 );
               },
-              // crossAxisCount: 2,
-              // crossAxisSpacing: 5,
-              // mainAxisSpacing: 5,
             ),
     );
   }
 }
 
 Color getCardColor({required String colorHEX}) {
-  if (colorHEX.isEmpty)
+  if (colorHEX.isEmpty) {
     return Color(int.parse(NoteColors.postItYellow.hexCode));
+  }
   return Color(int.parse(colorHEX));
 }
