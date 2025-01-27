@@ -25,30 +25,35 @@ class HomeScreen extends StatelessWidget {
           child: const Icon(Icons.add)),
       body: noteProvider.notes.isEmpty
           ? const Center(child: Text("add some!"))
-          : GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 8,
-              ),
-              itemCount: noteProvider.notes.length,
-              itemBuilder: (context, index) {
-                final Note note = noteProvider.notes[index];
-                return StickyNoteCard(
-                  title: note.title,
-                  description: note.description ?? "",
-                  dueDate: note.due,
-                  isPinned: note.isPinned,
-                  backgroundColor: getCardColor(colorHEX: note.colorHEX),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => NoteDetailScreen(
-                                note: noteProvider.notes[index])));
-                  },
-                );
+          : RefreshIndicator.adaptive(
+              onRefresh: () {
+                return noteProvider.fetchNotes();
               },
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
+                ),
+                itemCount: noteProvider.notes.length,
+                itemBuilder: (context, index) {
+                  final Note note = noteProvider.notes[index];
+                  return StickyNoteCard(
+                    title: note.title,
+                    description: note.description ?? "",
+                    dueDate: note.due,
+                    isPinned: note.isPinned,
+                    backgroundColor: getCardColor(colorHEX: note.colorHEX),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => NoteDetailScreen(
+                                  note: noteProvider.notes[index])));
+                    },
+                  );
+                },
+              ),
             ),
     );
   }
