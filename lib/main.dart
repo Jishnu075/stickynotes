@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stickynotes/db_service.dart';
-import 'package:stickynotes/home_screen.dart';
+import 'package:stickynotes/screens/home_screen.dart';
 import 'package:stickynotes/note_provider.dart';
 
 void main() async {

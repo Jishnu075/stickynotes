@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stickynotes/add_note_screen.dart';
-import 'package:stickynotes/note_detail_screen.dart';
+import 'package:stickynotes/screens/add_note_screen.dart';
+import 'package:stickynotes/screens/note_detail_screen.dart';
 import 'package:stickynotes/note_provider.dart';
 import 'package:stickynotes/notes_model.dart';
-import 'package:stickynotes/sticky_note_card.dart';
+import 'package:stickynotes/widgets/sticky_note_card.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

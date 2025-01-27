@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stickynotes/add_note_screen.dart';
+import 'package:stickynotes/screens/add_note_screen.dart';
 import 'package:stickynotes/db_service.dart';
-import 'package:stickynotes/home_screen.dart';
+import 'package:stickynotes/screens/home_screen.dart';
 import 'package:stickynotes/note_provider.dart';
 import 'package:stickynotes/notes_model.dart';
 
