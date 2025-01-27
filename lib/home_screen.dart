@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text("Sticky Notes"), centerTitle: false, actions: [
-        IconButton(onPressed: () async {}, icon: const Icon(Icons.menu))
+        IconButton(onPressed: () {}, icon: const Icon(Icons.menu))
       ]),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -21,8 +21,8 @@ class HomeScreen extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => AddNoteScreen()));
           },
           child: const Icon(Icons.add)),
-      body: noteProvider.notes.length == 0
-          ? Center(child: Text("add some!"))
+      body: noteProvider.notes.isEmpty
+          ? const Center(child: Text("add some!"))
           : GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -58,6 +58,7 @@ class HomeScreen extends StatelessWidget {
 }
 
 Color getCardColor({required String colorHEX}) {
-  if (colorHEX.isEmpty) return Color(int.parse(NoteColors.gold.hexCode));
+  if (colorHEX.isEmpty)
+    return Color(int.parse(NoteColors.postItYellow.hexCode));
   return Color(int.parse(colorHEX));
 }
