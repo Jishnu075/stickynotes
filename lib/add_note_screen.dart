@@ -5,14 +5,31 @@ import 'package:stickynotes/note_provider.dart';
 import 'package:stickynotes/notes_model.dart';
 
 enum NoteColors {
-  lemonChiffon("0xFFFFF9B1"),
-  paleGreen("0xFFDAF7A1"),
-  pastelGreen("0xFFC9DF56"),
-  seafoam("0xFFB6D7A8"),
-  skyBlue("0xFF6ED8FA"),
-  powderBlue("0xFFB1D3F6"),
-  gold("0xFFFFC000"),
-  periwinkle("0xFF8CA0FF");
+  // lemonChiffon("0xFFFFF9B1"),
+  // paleGreen("0xFFDAF7A1"),
+  // pastelGreen("0xFFC9DF56"),
+  // seafoam("0xFFB6D7A8"),
+  // skyBlue("0xFF6ED8FA"),
+  // powderBlue("0xFFB1D3F6"),
+  // gold("0xFFFFC000"),
+  // periwinkle("0xFF8CA0FF");
+
+  // softCream("0xffFDF5E6"),
+  // paleSage("0xffE8EDED"),
+  // lightLavender("0xffF3E5F5"),
+  // coolGrey("0xffF5F5F5"),
+  // shellPink("0xffFFF0F0"),
+  // paperWhite("0xffFAFAFA"),
+  // cornSilk("0xFF99FFFF");
+  postItYellow("0xFFFFE44D"), // The classic, most recommended default
+  softMint("0xFF98FFB3"), // A gentle but noticeable green
+  calmBlue("0xFF99E6FF"), // Fresh sky blue
+  warmPeach("0xFFFFB399"), // Soft orangey peach
+  gentlePink("0xFFFFB3B3"), // Light warm pink
+  lavenderMist("0xFFE6B3FF"), // Soft purple
+  paleApricot("0xFFFFCC99"), // Light orange
+  freshMint("0xFFB3FFB3"), // Slightly brighter mint
+  softSalmon("0xFFFF9999"); // Coral-like tone
 
   final String hexCode;
 
@@ -92,7 +109,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                       maxLength: 3,
                     ),
                     DropdownMenu(
-                      initialSelection: NoteColors.gold,
+                      initialSelection: NoteColors.postItYellow,
                       onSelected: (value) {
                         colorHEXcode = value?.hexCode ?? "";
                       },
