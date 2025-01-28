@@ -34,6 +34,7 @@ class NoteDetailScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: const Text('detail'),
+          centerTitle: false,
           backgroundColor: note.colorHEX.isEmpty
               ? Color(int.parse(NoteColors.postItYellow.hexCode))
               : Color(int.parse(note.colorHEX)),
