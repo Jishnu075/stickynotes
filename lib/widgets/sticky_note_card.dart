@@ -43,7 +43,10 @@ class StickyNoteCard extends StatelessWidget {
           child: Stack(
             alignment: Alignment.topRight,
             children: [
-              if (isPinned) const Icon(Icons.push_pin_outlined),
+              if (isPinned)
+                Transform.rotate(
+                    angle: 3.14 / 4,
+                    child: const Icon(Icons.push_pin_outlined)),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
