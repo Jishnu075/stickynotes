@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:stickynotes/db_service.dart';
 import 'package:stickynotes/note_provider.dart';
 import 'package:stickynotes/notes_model.dart';
+import 'package:stickynotes/screens/home_screen.dart';
+import 'package:stickynotes/widgets/minimal_text_field.dart';
 
 enum NoteColors {
   // lemonChiffon("0xFFFFF9B1"),
@@ -69,104 +71,207 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
       TextEditingController();
   bool isPinned = false;
   String colorHEXcode = '';
+  Color screenColor = getCardColor(colorHEX: NoteColors.postItYellow.hexCode);
+  NoteColors selectedDropDownColor = NoteColors.postItYellow;
   // bool isFavorite = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Add your stickie"), centerTitle: false),
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              flex: 7,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    TextField(
-                      controller: titleTextEditingController,
-                      decoration: InputDecoration(hintText: "title"),
-                    ),
-                    TextField(
-                      controller: descTextEditingController,
-                      decoration: InputDecoration(hintText: "description"),
-                    ),
-                    Row(children: [
-                      const Text('pin ?'),
-                      Switch.adaptive(
-                          value: isPinned,
-                          onChanged: (value) {
-                            setState(() {
-                              isPinned = value;
-                            });
-                          })
-                    ]),
-                    TextField(
-                      controller: dueTextEditingController,
-                      decoration: InputDecoration(hintText: 'days?'),
-                      keyboardType: TextInputType.number,
-                      maxLength: 3,
-                    ),
-                    DropdownMenu(
-                      initialSelection: NoteColors.postItYellow,
-                      onSelected: (value) {
-                        colorHEXcode = value?.hexCode ?? "";
-                      },
-                      dropdownMenuEntries: [
-                        for (var color in NoteColors.values)
-                          DropdownMenuEntry(
-                            value: color,
-                            label: color.name,
-                          ),
+      appBar: AppBar(
+          title: const Text("Add your stickie"),
+          centerTitle: false,
+          backgroundColor: screenColor),
+      body: Container(
+        color: screenColor,
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  flex: 7,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        MinimalTextField(
+                          controller: titleTextEditingController,
+                          hintText: 'title',
+                        ),
+                        const SizedBox(height: 10),
+                        MinimalTextField(
+                          controller: descTextEditingController,
+                          hintText: 'description',
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(children: [
+                              const Text('pin it?'),
+                              Switch.adaptive(
+                                  value: isPinned,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      isPinned = value;
+                                    });
+                                  })
+                            ])),
+                        MinimalTextField(
+                          controller: dueTextEditingController,
+                          hintText: 'to be done in how many days?',
+                          keyboardType: TextInputType.number,
+                        ),
+                        // DropdownMenu(
+                        //   initialSelection: NoteColors.postItYellow,
+                        //   onSelected: (value) {
+                        //     colorHEXcode = value?.hexCode ?? "";
+                        //     setState(() {
+                        //       screenColor =
+                        //           getCardColor(colorHEX: value?.hexCode ?? "");
+                        //     });
+                        //   },
+                        //   dropdownMenuEntries: [
+                        //     // for (var color in NoteColors.values)
+                        //     //   DropdownMenuEntry(
+                        //     //     value: color,
+                        //     //     label: color.name,
+                        //     //   ),
+                        //     DropdownMenuEntry(
+                        //         label: 'pinkkk',
+                        //         value: NoteColors.postItYellow,
+                        //         labelWidget: CircleAvatar())
+                        //   ],
+                        // ),
+                        const SizedBox(height: 10),
+                        ColorPickerDropdown(
+                            selectedColor: selectedDropDownColor,
+                            onColorSelected: (NoteColors color) {
+                              colorHEXcode = color.hexCode;
+                              setState(() {
+                                screenColor =
+                                    getCardColor(colorHEX: color.hexCode);
+                                selectedDropDownColor = color;
+                              });
+                            })
+                        // DateRangePickerDialog(
+                        //     initialEntryMode: DatePickerEntryMode.calendarOnly,
+                        //     helpText: 'due',
+                        //     firstDate: DateTime.now(),
+                        //     lastDate: DateTime.now().add(const Duration(days: 200))),
                       ],
                     ),
-                    // DateRangePickerDialog(
-                    //     initialEntryMode: DatePickerEntryMode.calendarOnly,
-                    //     helpText: 'due',
-                    //     firstDate: DateTime.now(),
-                    //     lastDate: DateTime.now().add(const Duration(days: 200))),
+                  ),
+                ),
+                Flexible(
+                    flex: 3,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          const CloseButton(),
+                          ElevatedButton(
+                              onPressed: () async {
+                                if (titleTextEditingController
+                                        .text.isNotEmpty &&
+                                    descTextEditingController.text.isNotEmpty &&
+                                    dueTextEditingController.text.isNotEmpty) {
+                                  final note = Note(
+                                    title: titleTextEditingController.text,
+                                    description: descTextEditingController.text,
+                                    due: DateTime.now().add(Duration(
+                                        days: int.parse(
+                                            dueTextEditingController.text))),
+                                    lastEdited: DateTime.now(),
+                                    isFavorite: false,
+                                    isPinned: isPinned,
+                                    colorHEX: colorHEXcode,
+                                  );
+                                  await DBService().insertNote(note);
+                                  if (context.mounted) {
+                                    Provider.of<NoteProvider>(context,
+                                            listen: false)
+                                        .fetchNotes();
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(content: Text('added')));
+                                  }
+                                }
+                              },
+                              child: Text("add")),
+                        ]))
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ColorPickerDropdown extends StatelessWidget {
+  final NoteColors selectedColor;
+  final Function(NoteColors) onColorSelected;
+
+  const ColorPickerDropdown({
+    super.key,
+    required this.selectedColor,
+    required this.onColorSelected,
+  });
+
+  String _formatName(String enumName) {
+    final formattedName = enumName.replaceAllMapped(
+      RegExp(r'([A-Z])'),
+      (match) => ' ${match.group(0)}',
+    );
+    return formattedName
+        .trim()
+        .split(' ')
+        .map((word) => word[0].toUpperCase() + word.substring(1).toLowerCase())
+        .join(' ');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.grey[100], borderRadius: BorderRadius.circular(8)),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<NoteColors>(
+            value: selectedColor,
+            icon: const Icon(Icons.arrow_drop_down, color: Colors.black54),
+            isExpanded: true,
+            elevation: 2,
+            borderRadius: BorderRadius.circular(8),
+            items: NoteColors.values.map((color) {
+              return DropdownMenuItem<NoteColors>(
+                value: color,
+                child: Row(
+                  children: [
+                    Container(
+                        width: 24,
+                        height: 24,
+                        decoration: BoxDecoration(
+                            color: getCardColor(colorHEX: color.hexCode),
+                            borderRadius: BorderRadius.circular(4),
+                            border: Border.all(
+                              color: Colors.black12,
+                              width: 1,
+                            ))),
+                    const SizedBox(width: 12),
+                    Text(_formatName(color.name),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.black87,
+                        )),
                   ],
                 ),
-              ),
-            ),
-            Flexible(
-                flex: 3,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      const CloseButton(),
-                      ElevatedButton(
-                          onPressed: () async {
-                            if (titleTextEditingController.text.isNotEmpty &&
-                                descTextEditingController.text.isNotEmpty &&
-                                dueTextEditingController.text.isNotEmpty) {
-                              final note = Note(
-                                title: titleTextEditingController.text,
-                                description: descTextEditingController.text,
-                                due: DateTime.now().add(Duration(
-                                    days: int.parse(
-                                        dueTextEditingController.text))),
-                                lastEdited: DateTime.now(),
-                                isFavorite: false,
-                                isPinned: isPinned,
-                                colorHEX: colorHEXcode,
-                              );
-                              await DBService().insertNote(note);
-                              if (context.mounted) {
-                                Provider.of<NoteProvider>(context,
-                                        listen: false)
-                                    .fetchNotes();
-                                Navigator.pop(context);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text('added')));
-                              }
-                            }
-                          },
-                          child: Text("add")),
-                    ]))
-          ],
-        ),
+              );
+            }).toList(),
+            onChanged: (NoteColors? newColor) {
+              if (newColor != null) {
+                onColorSelected(newColor);
+              }
+            }),
       ),
     );
   }
