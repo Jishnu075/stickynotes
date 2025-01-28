@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:stickynotes/screens/add_note_screen.dart';
 import 'package:stickynotes/db_service.dart';
@@ -44,8 +43,8 @@ class NoteDetailScreen extends StatelessWidget {
                 showCupertinoModalPopup(
                     context: context,
                     builder: (context) => AlertDialog(
-                          title: Text('Remove'),
-                          content: Text('Are you sure?'),
+                          title: const Text('Remove'),
+                          content: const Text('Are you sure?'),
                           actions: [
                             TextButton(
                                 onPressed: () => Navigator.maybePop(context),
@@ -72,7 +71,7 @@ class NoteDetailScreen extends StatelessWidget {
                           ],
                         ));
               },
-              icon: Icon(Icons.delete),
+              icon: const Icon(Icons.delete),
             )
           ],
         ),
@@ -133,7 +132,7 @@ class NoteDetailScreen extends StatelessWidget {
                                   const SnackBar(content: Text('updated')));
                             }
                           },
-                          child: Text("update"),
+                          child: const Text("update"),
                         ),
                         Container(
                             width: 20,

@@ -7,7 +7,7 @@ import 'package:stickynotes/note_provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DBService().initializeDatabase();
-  runApp(StickyNotes());
+  runApp(const StickyNotes());
 }
 
 class StickyNotes extends StatelessWidget {
@@ -20,7 +20,7 @@ class StickyNotes extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => NoteProvider()),
         ],
         builder: (context, snapshot) {
-          return MaterialApp(
+          return const MaterialApp(
             debugShowCheckedModeBanner: false,
             home: HomeScreen(),
           );

@@ -14,15 +14,11 @@ class HomeScreen extends StatelessWidget {
     final noteProvider = Provider.of<NoteProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text("Sticky Notes"), centerTitle: false, actions: [
-        // IconButton(onPressed: () {
-
-        // }, icon: const Icon(Icons.menu))
-      ]),
+      appBar: AppBar(title: const Text("Sticky Notes"), centerTitle: false),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => AddNoteScreen()));
+                MaterialPageRoute(builder: (context) => const AddNoteScreen()));
           },
           child: const Icon(Icons.add)),
       body: noteProvider.notes.isEmpty

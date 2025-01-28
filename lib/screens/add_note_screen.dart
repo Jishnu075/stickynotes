@@ -56,7 +56,7 @@ enum NoteColors {
 // #8CA0FF - Periwinkle
 // #000000 - Black
 class AddNoteScreen extends StatefulWidget {
-  AddNoteScreen({super.key});
+  const AddNoteScreen({super.key});
 
   @override
   State<AddNoteScreen> createState() => _AddNoteScreenState();
@@ -197,7 +197,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                                   }
                                 }
                               },
-                              child: Text("add")),
+                              child: const Text("add")),
                         ]))
               ],
             ),
