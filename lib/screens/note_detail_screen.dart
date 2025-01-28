@@ -19,7 +19,6 @@ class NoteDetailScreen extends StatelessWidget {
   final TextEditingController descTEC = TextEditingController();
   final TextEditingController dueTEC = TextEditingController();
   final FocusNode titleFN = FocusNode();
-
   int _getDaysUntil(DateTime dueDate) {
     final now = DateTime.now();
     final difference = dueDate.difference(now);
@@ -32,6 +31,7 @@ class NoteDetailScreen extends StatelessWidget {
     titleTEC.text = note.title;
     descTEC.text = note.description ?? "";
     dueTEC.text = (_getDaysUntil(note.due) + 1).toString();
+
     return Scaffold(
         appBar: AppBar(
           title: const Text('detail'),
@@ -104,10 +104,9 @@ class NoteDetailScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 10),
                           MinimalTextField(
-                            prefixText: 'days: ',
-                            controller: dueTEC,
-                            keyboardType: TextInputType.number,
-                          ),
+                              prefixText: 'days: ',
+                              controller: dueTEC,
+                              keyboardType: TextInputType.number),
                         ]),
                   ),
                   Flexible(

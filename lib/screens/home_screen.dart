@@ -15,7 +15,9 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text("Sticky Notes"), centerTitle: false, actions: [
-        IconButton(onPressed: () {}, icon: const Icon(Icons.menu))
+        // IconButton(onPressed: () {
+
+        // }, icon: const Icon(Icons.menu))
       ]),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
