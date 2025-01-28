@@ -114,7 +114,25 @@ class NoteDetailScreen extends StatelessWidget {
                       child: Row(children: [
                         const Spacer(),
                         OutlinedButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            final editedNote = Note(
+                                id: note.id,
+                                title: titleTEC.text,
+                                description: descTEC.text,
+                                due: DateTime.now().add(
+                                    Duration(days: int.parse(dueTEC.text))),
+                                lastEdited: DateTime.now(),
+                                isFavorite: false,
+                                isPinned: note.isPinned,
+                                colorHEX: note.colorHEX);
+                            await DBService().updateNote(editedNote);
+                            if (context.mounted) {
+                              Provider.of<NoteProvider>(context, listen: false)
+                                  .fetchNotes();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('updated')));
+                            }
+                          },
                           child: Text("update"),
                         ),
                         Container(
