@@ -131,10 +131,6 @@ class NoteDetailScreen extends StatelessWidget {
                         },
                         child: const Text("update"),
                       ),
-                      Container(
-                          width: 20,
-                          height: 20,
-                          color: getCardColor(colorHEX: note.colorHEX))
                     ]))
               ],
             ),
