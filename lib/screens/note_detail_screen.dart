@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:stickynotes/screens/add_note_screen.dart';
 import 'package:stickynotes/db_service.dart';
@@ -125,6 +126,7 @@ class NoteDetailScreen extends StatelessWidget {
                           if (context.mounted) {
                             Provider.of<NoteProvider>(context, listen: false)
                                 .fetchNotes();
+                            HapticFeedback.lightImpact();
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text('updated')));
                           }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:stickynotes/db_service.dart';
 import 'package:stickynotes/note_provider.dart';
@@ -190,6 +191,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                                           listen: false)
                                       .fetchNotes();
                                   Navigator.pop(context);
+                                  HapticFeedback.lightImpact();
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(content: Text('added')));
                                 }

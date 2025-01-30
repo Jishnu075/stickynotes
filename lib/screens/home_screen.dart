@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:stickynotes/screens/add_note_screen.dart';
 import 'package:stickynotes/screens/note_detail_screen.dart';
@@ -56,6 +57,7 @@ class HomeScreen extends StatelessWidget {
                       isPinned: note.isPinned,
                       backgroundColor: getCardColor(colorHEX: note.colorHEX),
                       onTap: () {
+                        HapticFeedback.lightImpact();
                         Navigator.push(
                             context,
                             MaterialPageRoute(
