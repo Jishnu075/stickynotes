@@ -12,6 +12,7 @@ class MinimalTextField extends StatelessWidget {
   final int? maxLines;
   final TextInputAction? textInputAction;
   final FocusNode? focusNode;
+  final bool autoFocus;
 
   const MinimalTextField({
     super.key,
@@ -26,6 +27,7 @@ class MinimalTextField extends StatelessWidget {
     this.maxLines = 1,
     this.textInputAction,
     this.focusNode,
+    this.autoFocus = false,
   });
 
   @override
@@ -39,6 +41,7 @@ class MinimalTextField extends StatelessWidget {
       maxLines: maxLines,
       textInputAction: textInputAction,
       focusNode: focusNode,
+      autofocus: autoFocus,
       style: const TextStyle(
         fontSize: 16,
         color: Colors.black87,

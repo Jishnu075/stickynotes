@@ -99,6 +99,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                       MinimalTextField(
                         controller: titleTextEditingController,
                         hintText: 'title',
+                        autoFocus: true,
                       ),
                       const SizedBox(height: 10),
                       MinimalTextField(
