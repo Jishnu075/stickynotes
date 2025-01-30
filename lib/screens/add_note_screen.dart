@@ -172,7 +172,6 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                         ElevatedButton(
                             onPressed: () async {
                               if (titleTextEditingController.text.isNotEmpty &&
-                                  descTextEditingController.text.isNotEmpty &&
                                   dueTextEditingController.text.isNotEmpty) {
                                 final note = Note(
                                   title: titleTextEditingController.text,
@@ -194,6 +193,11 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(content: Text('added')));
                                 }
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            'title and due must be filled')));
                               }
                             },
                             child: const Text("add")),
