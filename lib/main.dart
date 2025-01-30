@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:stickynotes/db_service.dart';
 import 'package:stickynotes/screens/home_screen.dart';
 import 'package:stickynotes/note_provider.dart';
-import 'package:stickynotes/screens/theme_provider.dart';
 import 'package:stickynotes/theme.dart';
+import 'package:stickynotes/theme_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

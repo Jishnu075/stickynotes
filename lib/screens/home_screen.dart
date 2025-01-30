@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stickynotes/screens/add_note_screen.dart';
@@ -15,7 +16,12 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Sticky Notes"),
+        toolbarHeight: 100,
+        titleSpacing: 20,
+        title: const Text(
+          style: TextStyle(fontWeight: FontWeight.w200),
+          "Sticky Notes",
+        ),
         centerTitle: false,
         forceMaterialTransparency: true,
       ),
@@ -31,30 +37,34 @@ class HomeScreen extends StatelessWidget {
               onRefresh: () {
                 return noteProvider.fetchNotes();
               },
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 8,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: GridView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
+                  ),
+                  itemCount: noteProvider.notes.length,
+                  itemBuilder: (context, index) {
+                    final Note note = noteProvider.notes[index];
+                    return StickyNoteCard(
+                      title: note.title,
+                      description: note.description ?? "",
+                      dueDate: note.due,
+                      isPinned: note.isPinned,
+                      backgroundColor: getCardColor(colorHEX: note.colorHEX),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NoteDetailScreen(
+                                    note: noteProvider.notes[index])));
+                      },
+                    );
+                  },
                 ),
-                itemCount: noteProvider.notes.length,
-                itemBuilder: (context, index) {
-                  final Note note = noteProvider.notes[index];
-                  return StickyNoteCard(
-                    title: note.title,
-                    description: note.description ?? "",
-                    dueDate: note.due,
-                    isPinned: note.isPinned,
-                    backgroundColor: getCardColor(colorHEX: note.colorHEX),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => NoteDetailScreen(
-                                  note: noteProvider.notes[index])));
-                    },
-                  );
-                },
               ),
             ),
     );

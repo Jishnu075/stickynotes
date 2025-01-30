@@ -25,7 +25,7 @@ class StickyNoteCard extends StatelessWidget {
       child: Card(
         elevation: 4,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(2),
         ),
         color: backgroundColor,
         child: Container(
