@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:stickynotes/db_service.dart';
 import 'package:stickynotes/note_provider.dart';
@@ -80,127 +81,130 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text("Add your stickie"),
-          centerTitle: false,
-          backgroundColor: screenColor),
-      body: Container(
-        color: screenColor,
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  flex: 7,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        MinimalTextField(
-                          controller: titleTextEditingController,
-                          hintText: 'title',
-                        ),
-                        const SizedBox(height: 10),
-                        MinimalTextField(
-                          controller: descTextEditingController,
-                          hintText: 'description',
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(children: [
-                              const Text('pin it?'),
-                              Switch.adaptive(
-                                  value: isPinned,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      isPinned = value;
-                                    });
-                                  })
-                            ])),
-                        MinimalTextField(
-                          controller: dueTextEditingController,
-                          hintText: 'to be done in how many days?',
-                          keyboardType: TextInputType.number,
-                        ),
-                        // DropdownMenu(
-                        //   initialSelection: NoteColors.postItYellow,
-                        //   onSelected: (value) {
-                        //     colorHEXcode = value?.hexCode ?? "";
-                        //     setState(() {
-                        //       screenColor =
-                        //           getCardColor(colorHEX: value?.hexCode ?? "");
-                        //     });
-                        //   },
-                        //   dropdownMenuEntries: [
-                        //     // for (var color in NoteColors.values)
-                        //     //   DropdownMenuEntry(
-                        //     //     value: color,
-                        //     //     label: color.name,
-                        //     //   ),
-                        //     DropdownMenuEntry(
-                        //         label: 'pinkkk',
-                        //         value: NoteColors.postItYellow,
-                        //         labelWidget: CircleAvatar())
-                        //   ],
-                        // ),
-                        const SizedBox(height: 10),
-                        ColorPickerDropdown(
-                            selectedColor: selectedDropDownColor,
-                            onColorSelected: (NoteColors color) {
-                              colorHEXcode = color.hexCode;
-                              setState(() {
-                                screenColor =
-                                    getCardColor(colorHEX: color.hexCode);
-                                selectedDropDownColor = color;
-                              });
-                            })
-                        // DateRangePickerDialog(
-                        //     initialEntryMode: DatePickerEntryMode.calendarOnly,
-                        //     helpText: 'due',
-                        //     firstDate: DateTime.now(),
-                        //     lastDate: DateTime.now().add(const Duration(days: 200))),
-                      ],
-                    ),
+        title: const Text("Add your stickie"),
+        centerTitle: false,
+        // backgroundColor: screenColor,
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                flex: 7,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      MinimalTextField(
+                        controller: titleTextEditingController,
+                        hintText: 'title',
+                      ),
+                      const SizedBox(height: 10),
+                      MinimalTextField(
+                        controller: descTextEditingController,
+                        hintText: 'description',
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(children: [
+                            const Text('pin it?'),
+                            const SizedBox(width: 10),
+                            Switch.adaptive(
+                                value: isPinned,
+                                onChanged: (value) {
+                                  setState(() {
+                                    isPinned = value;
+                                  });
+                                })
+                          ])),
+                      MinimalTextField(
+                        controller: dueTextEditingController,
+                        hintText: 'to be done in how many days?',
+                        keyboardType: TextInputType.number,
+                      ),
+                      // DropdownMenu(
+                      //   initialSelection: NoteColors.postItYellow,
+                      //   onSelected: (value) {
+                      //     colorHEXcode = value?.hexCode ?? "";
+                      //     setState(() {
+                      //       screenColor =
+                      //           getCardColor(colorHEX: value?.hexCode ?? "");
+                      //     });
+                      //   },
+                      //   dropdownMenuEntries: [
+                      //     // for (var color in NoteColors.values)
+                      //     //   DropdownMenuEntry(
+                      //     //     value: color,
+                      //     //     label: color.name,
+                      //     //   ),
+                      //     DropdownMenuEntry(
+                      //         label: 'pinkkk',
+                      //         value: NoteColors.postItYellow,
+                      //         labelWidget: CircleAvatar())
+                      //   ],
+                      // ),
+                      const SizedBox(height: 10),
+                      ColorPickerDropdown(
+                          selectedColor: selectedDropDownColor,
+                          onColorSelected: (NoteColors color) {
+                            colorHEXcode = color.hexCode;
+                            setState(() {
+                              screenColor =
+                                  getCardColor(colorHEX: color.hexCode);
+                              selectedDropDownColor = color;
+                            });
+                          })
+                      // DateRangePickerDialog(
+                      //     initialEntryMode: DatePickerEntryMode.calendarOnly,
+                      //     helpText: 'due',
+                      //     firstDate: DateTime.now(),
+                      //     lastDate: DateTime.now().add(const Duration(days: 200))),
+                    ],
                   ),
                 ),
-                Flexible(
-                    flex: 3,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          const CloseButton(),
-                          ElevatedButton(
-                              onPressed: () async {
-                                if (titleTextEditingController
-                                        .text.isNotEmpty &&
-                                    descTextEditingController.text.isNotEmpty &&
-                                    dueTextEditingController.text.isNotEmpty) {
-                                  final note = Note(
-                                    title: titleTextEditingController.text,
-                                    description: descTextEditingController.text,
-                                    due: DateTime.now().add(Duration(
-                                        days: int.parse(
-                                            dueTextEditingController.text))),
-                                    lastEdited: DateTime.now(),
-                                    isFavorite: false,
-                                    isPinned: isPinned,
-                                    colorHEX: colorHEXcode,
-                                  );
-                                  await DBService().insertNote(note);
-                                  if (context.mounted) {
-                                    Provider.of<NoteProvider>(context,
-                                            listen: false)
-                                        .fetchNotes();
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(content: Text('added')));
-                                  }
+              ),
+              Flexible(
+                  flex: 3,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        const CloseButton(),
+                        ElevatedButton(
+                            onPressed: () async {
+                              if (titleTextEditingController.text.isNotEmpty &&
+                                  dueTextEditingController.text.isNotEmpty) {
+                                final note = Note(
+                                  title: titleTextEditingController.text,
+                                  description: descTextEditingController.text,
+                                  due: DateTime.now().add(Duration(
+                                      days: int.parse(
+                                          dueTextEditingController.text))),
+                                  lastEdited: DateTime.now(),
+                                  isFavorite: false,
+                                  isPinned: isPinned,
+                                  colorHEX: colorHEXcode,
+                                );
+                                await DBService().insertNote(note);
+                                if (context.mounted) {
+                                  Provider.of<NoteProvider>(context,
+                                          listen: false)
+                                      .fetchNotes();
+                                  Navigator.pop(context);
+                                  HapticFeedback.lightImpact();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(content: Text('added')));
                                 }
-                              },
-                              child: const Text("add")),
-                        ]))
-              ],
-            ),
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            'title and due must be filled')));
+                              }
+                            },
+                            child: const Text("add")),
+                      ]))
+            ],
           ),
         ),
       ),
