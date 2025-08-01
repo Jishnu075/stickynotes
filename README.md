@@ -1,16 +1,57 @@
-# stickynotes
+A new **Flutter project** that allows you to create and manage sticky notes. Great as a starting point for learning Flutter or for building your own notes app.
 
-A new Flutter project.
+## Features
+
+- Create digital sticky notes.
+- Clean and simple user interface.
+
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+If this is your first Flutter project, check the official Flutter documentation for setup details and more learning resources.
 
-A few resources to get you started if this is your first Flutter project:
+### Prerequisites
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Flutter SDK installed ([Get Flutter here](https://flutter.dev/docs/get-started/install))
+- Dart SDK (usually installed with Flutter)
+- A code editor like VS Code or Android Studio
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+### Installation
+
+1. **Clone the repository:**
+
+```bash
+git clone https://github.com/Jishnu075/stickynotes.git
+cd stickynotes
+```
+
+2. **Get project dependencies:**
+
+```bash
+flutter pub get
+```
+
+3. **Run the app:**
+
+```bash
+flutter run
+```
+
+
+## Usage
+
+- Use the application to create, view, and manage sticky notes on your device.
+- Explore the source code to learn about Flutter widgets, layouts, and state management.
+
+
+## Contributing
+
+Contributions are welcome! Open an issue or submit a pull request to suggest improvements or new features.
+
+## License
+
+MIT LICENSE(MIT)
+
+> For further help with Flutter development, see the [Flutter documentation](https://flutter.dev/docs).
+
