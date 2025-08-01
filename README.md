@@ -51,7 +51,7 @@ Contributions are welcome! Open an issue or submit a pull request to suggest imp
 
 ## License
 
-MIT LICENSE(MIT)
+MIT LICENSE
 
 > For further help with Flutter development, see the [Flutter documentation](https://flutter.dev/docs).
 
